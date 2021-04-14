@@ -8,7 +8,7 @@
 #include <string.h>
 
 void printHelp(){
-    std::cout<<"DuckHax:\n";
+    std::cout<<"USAGE: DuckHax [MODE] -i INPUT -o OUTPUT\nMODES: dump\n";
 }
 
 int main(int argc, char **argv)
