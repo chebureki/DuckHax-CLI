@@ -1,0 +1,8 @@
+// UserDefine_Z
+struct UserDefine_Z{
+    uint32 classCRC; // C4 62 91 29
+    uint32 uCRC1;
+    uint32 uCRC2;
+    uint32 lenDefine;
+    char define[lenDefine];
+} userdefine;
