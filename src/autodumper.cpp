@@ -28,7 +28,6 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
 
 //TODO: fix this garbage code. ffs I can't be this bad at c++ right?
 void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, bool recursive){
-    //std::cout<<pathIn <<std::endl;
     if(isADirectory(pathIn)){
         struct dirent *entry = nullptr;
         DIR *dir = nullptr;
@@ -38,13 +37,15 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
             //delete entry;
             if (childPath=="." || childPath == "..")
                 continue;
-            std::string totalPath = pathIn+childPath;
+            std::string totalPath = trailFolder(pathIn)+childPath;
             if(isADirectory(totalPath)&&recursive){
-                std::string newbase=baseNamePathOut+childPath+SEP;
+                if(!isADirectory(baseNamePathOut))
+                    mkdir(baseNamePathOut.c_str(),S_IRWXU);
+                std::string newbase= trailFolder(baseNamePathOut)+childPath;
                 if (!isADirectory(newbase))
                     if ( mkdir(newbase.c_str(), 0700) != 0)
                         throw std::runtime_error("Can't create "+newbase+" for writing!\n");
-                autoDump(totalPath+SEP,newbase,crc,recursive);
+                autoDump(trailFolder(totalPath),trailFolder(newbase),crc,recursive);
                 continue;
             }
             autoDump(totalPath,getFileBase(baseNamePathOut+childPath),crc,recursive);
@@ -80,7 +81,7 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
     case ZounaClasses::sdx:{
         parser = new SdxParser;
         ParserResult *result = parser->parseFile(pathIn,crc);
-        result->dump(baseNamePathOut+SEP);
+        result->dump(trailFolder(baseNamePathOut));
         delete parser;
         delete result;
         return;
@@ -90,8 +91,9 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
         parser = new DPCParser;
         try{
             ParserResult *result = parser->parseFile(pathIn,crc);
-            result->dump(baseNamePathOut+SEP);
-            autoDump(baseNamePathOut+SEP,baseNamePathOut+SEP,crc,true);
+            std::string path = trailFolder(baseNamePathOut);
+            result->dump(path);
+            autoDump(path,path,crc,true);
             delete parser;
             delete result;
         }catch(std::runtime_error e){

@@ -53,7 +53,6 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
             fseek(file,dpcFile.size,SEEK_CUR);
 
             currFolder.push_back(dpcFile);
-            //std::cout<<std::hex<<ftell(file)<<std::dec<<'\n';
         }
         result->m_folders.push_back(currFolder);
 

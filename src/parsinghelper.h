@@ -18,4 +18,8 @@ std::string getFileExtension(std::string path);
 std::string getFileBaseName(std::string path); //c:\test.dat => test
 std::string getFileBase(std::string path); //c:\test.dat => c:\test
 
+//avoid using these too much!
+std::string trailFolder(std::string path);
+std::string dontTrailFolder(std::string path);
+
 bool isADirectory(std::string path);

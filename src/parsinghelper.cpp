@@ -33,3 +33,15 @@ bool isADirectory(std::string path){
 
     return false;
 }
+
+std::string trailFolder(std::string path){
+    if(path.at(path.length()-1)== SEP)
+        return path;
+    return path+SEP;
+}
+std::string dontTrailFolder(std::string path){
+    int len = path.length();
+    if(path.at(len-1)== SEP)
+        return path.substr(0,len-1);
+    return path;
+}
