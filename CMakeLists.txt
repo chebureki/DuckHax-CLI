@@ -26,6 +26,7 @@ set (SRCS
     src/parser.cpp
     src/parsinghelper.cpp
     src/zounaclasses.cpp
+    src/soundparser.cpp
 )
 
 
