@@ -2,6 +2,7 @@
 #include "bitmapparser.h"
 #include "dpcparser.h"
 #include "meshparser.h"
+#include "sdxparser.h"
 #include "soundparser.h"
 #include "parsinghelper.h"
 #include <dirent.h>
@@ -76,6 +77,14 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
         parser = new SoundParser;
         fileExt="wav";
         break;
+    case ZounaClasses::sdx:{
+        parser = new SdxParser;
+        ParserResult *result = parser->parseFile(pathIn,crc);
+        result->dump(baseNamePathOut+SEP);
+        delete parser;
+        delete result;
+        return;
+    }
 
     case ZounaClasses::DPC:
         parser = new DPCParser;

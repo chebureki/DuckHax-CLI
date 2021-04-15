@@ -7,6 +7,7 @@
 enum ZounaClasses{
     UNKNOWN, // yikes
     DPC, //not a class, but who cares
+    sdx,
     GameBreakable_Z,
 	TONNEAU,
 	TONNEAU_INCLINE,

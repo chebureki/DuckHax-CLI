@@ -6,6 +6,7 @@
 const char* ZounaClassesNames[] ={
     "UNKNOWN",
     "DPC",
+    "sdx",
     "GameBreakable_Z",
     "TONNEAU",
 	"TONNEAU_INCLINE",

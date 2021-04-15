@@ -12,6 +12,7 @@ public:
     ~SoundResult();
     void dump(std::string pathOut) override;
     friend class SoundParser;
+    friend class SdxResult;
 
 private:
     void writeWaveHeader(FILE *file);
