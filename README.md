@@ -11,6 +11,7 @@ Windows builds haven't been tested yet
 $ mkdir build
 $ cd build
 $ cmake ..
+$ make
 ```
 
 ## Usage
