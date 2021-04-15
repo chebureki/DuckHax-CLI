@@ -17,7 +17,12 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     fread(&classCRC,4,1,file);
     fclose(file);
     file= NULL;
-    return crc.getClass(classCRC);
+    ZounaClasses zClass = crc.getClass(classCRC);
+
+    //Get the classname from the file-extension, yes I know this is stupid but e.g. SPX and DPC files do not have a CRC for crying out loud
+    if(zClass == ZounaClasses::UNKNOWN)
+        zClass = crc.getClass(crc.calculateCRC32(getFileExtension(pathIn)));
+    return zClass;
 }
 
 //TODO: fix this garbage code. ffs I can't be this bad at c++ right?
@@ -72,20 +77,20 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
         fileExt="wav";
         break;
 
-    default:
-        //This is garbage!
-        if(getFileExtension(pathIn)== "DPC"){
-            parser = new DPCParser;
-            try{
-                ParserResult *result = parser->parseFile(pathIn,crc);
-                result->dump(baseNamePathOut+SEP);
-                autoDump(baseNamePathOut+SEP,baseNamePathOut+SEP,crc,true);
-                delete parser;
-                delete result;
-            }catch(std::runtime_error e){
-                std::cout<<e.what();
-            }
+    case ZounaClasses::DPC:
+        parser = new DPCParser;
+        try{
+            ParserResult *result = parser->parseFile(pathIn,crc);
+            result->dump(baseNamePathOut+SEP);
+            autoDump(baseNamePathOut+SEP,baseNamePathOut+SEP,crc,true);
+            delete parser;
+            delete result;
+        }catch(std::runtime_error e){
+            std::cout<<e.what();
         }
+        return;
+    default:
+        //Unknown file
         return;
     }
     ParserResult *result;
