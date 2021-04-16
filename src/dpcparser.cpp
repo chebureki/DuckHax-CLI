@@ -57,8 +57,7 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
         result->m_folders.push_back(currFolder);
 
         //TODO: there has got to be a better way to skip the padding!
-        uint32_t curr = ftell(file);
-        int paddingTest = 0;
+        uint32_t paddingTest = 0;
         do{
             uint32_t curr = ftell(file);
             uint32_t seekTo = curr +(0x800-(curr%0x800));
@@ -88,7 +87,7 @@ void DPCResult::dump(std::string pathOut){
         if ( mkdir(path.c_str(), S_IRWXU)!=0)
             throw std::runtime_error("Can't create "+path+" for writing!\n");
     int folderIndex=1;
-    for(auto const folder : m_folders){
+    for(auto const &folder : m_folders){
         std::string folderPath = path+std::to_string(folderIndex)+SEP;
 
         if(!isADirectory(folderPath))
@@ -124,7 +123,7 @@ DPCResult::~DPCResult(){
 std::string DPCResult::inspectSpecific(){
     //TODO: fix this formatting monstrosity!
     std::string output = "Total of "+std::to_string(m_folders.size())+ " folders!\n";
-    for (auto const folder: m_folders){
+    for (auto const &folder: m_folders){
         output += "\n\tAmount of files: "+ std::to_string(folder.size())+ '\n';
         for(auto const file: folder){
             output+= "\n\t\tType: "+ std::string(CRC32Lookup::getClassName(file.type))+'\n';

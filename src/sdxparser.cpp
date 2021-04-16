@@ -51,7 +51,7 @@ void SdxResult::dump(std::string pathOut){
         if ( mkdir(pathOut.c_str(), S_IRWXU)!=0)
             throw std::runtime_error("Can't create "+pathOut+" for writing!\n");
 
-    for(const SdxDialog dialog : m_dialogs){
+    for(const SdxDialog &dialog : m_dialogs){
         std::string path = pathOut+dialog.name;
         SoundResult sound(path);
         sound.m_frameRate = 22050;
@@ -73,7 +73,7 @@ SdxResult::~SdxResult(){
 std::string SdxResult::inspectSpecific(){
     //TODO: fix this formatting monstrosity!
     std::string output = "Total of "+std::to_string(m_dialogs.size())+ " dialogs!\n";
-    for (auto const dialog: m_dialogs){
+    for (auto const &dialog: m_dialogs){
         output += "\n\tName: "+ dialog.name+ '\n';
         output += "\tSize: "+ std::to_string(dialog.size)+ '\n';
     }
