@@ -116,3 +116,12 @@ uint32_t MeshResult::getFaceCount(){
 uint32_t MeshResult::getVerticeCount(){
     return m_countVertice;
 }
+
+std::string MeshResult::inspectSpecific(){
+    //TODO: fix this formatting monstrosity!
+    //std::string output = "Total of "+std::to_string(m_dialogs.size())+ " dialogs!\n";
+    std::string output = "";
+    output += "Amount of Vertices: " + std::to_string(m_countVertice) +'\n';
+    output += "Amount of Faces: " + std::to_string(m_countFaces) +'\n';
+    return output;
+}

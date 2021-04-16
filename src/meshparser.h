@@ -24,6 +24,7 @@ class MeshResult : public ParserResult{
 public:
     ~MeshResult();
     void dump(std::string pathOut) override;
+    std::string inspectSpecific() override;
     friend class MeshParser;
     uint32_t getVerticeCount();
     uint32_t getFaceCount();
