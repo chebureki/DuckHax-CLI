@@ -21,3 +21,8 @@ $ make
 ```sh
 $ ./DuckHax dump -i pathToGameDir/ -o dump/
 ```
+
+### Inspecting:
+```sh
+$ ./DuckHax inspect -i pathToFile
+```
