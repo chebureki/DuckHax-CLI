@@ -15,6 +15,10 @@ ParserResult *Parser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     return result;
 };
 
+std::string ParserResult::inspect(){
+    return std::string("")+INSPECTSEP+ "NOT IMPLEMENTED, sorry :P\n"+INSPECTSEP;
+}
+
 Parser::Parser(){};
 Parser::~Parser(){};
 

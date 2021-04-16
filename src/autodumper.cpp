@@ -26,6 +26,38 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     return zClass;
 }
 
+Parser *getMatchingParser(std::string pathIn, CRC32Lookup crc){
+    ZounaClasses type;
+    type = autoDetectFile(pathIn,crc);
+
+    //TODO: avoid having to initialize a parser object every darn time
+    Parser *parser;
+    switch(type){
+
+    case ZounaClasses::Bitmap_Z:
+        parser = new BitmapParser;
+        break;
+    case ZounaClasses::Mesh_Z:
+        parser = new MeshParser;
+        break;
+
+    case ZounaClasses::Sound_Z:
+        parser = new SoundParser;
+        break;
+    case ZounaClasses::sdx:{
+        parser = new SdxParser;
+        break;
+    }
+
+    case ZounaClasses::DPC:
+        parser = new DPCParser;
+    default:
+        //Unknown file
+        return nullptr;
+    }
+    return parser;
+}
+
 //TODO: fix this garbage code. ffs I can't be this bad at c++ right?
 void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, bool recursive){
     if(isADirectory(pathIn)){

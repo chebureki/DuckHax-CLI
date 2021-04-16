@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string>
 #include <stdexcept>
+#include <stdio.h>
 #include <iostream>
 
 BitmapParser::BitmapParser(){}
@@ -35,6 +36,13 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     fread(&result->m_type,1,1,file);
     fclose(file);
     return result;
+}
+
+std::string BitmapResult::inspect(){
+    std::string output = INSPECTSEP+getFilePath()+'\n';
+    char *dst;
+    sprintf(dst, "\nDimensions: %d x %d\nType: %d\n",m_width,m_width,m_type);
+    return output+dst+INSPECTSEP;
 }
 
 void BitmapResult::dump(std::string pathOut){

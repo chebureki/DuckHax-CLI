@@ -4,6 +4,8 @@
 #include <stdint.h>
 
 #pragma once
+#define INSPECTSEP "--------------------\n"
+
 class ParserResult{
     private:
         ZounaClasses m_type;
@@ -15,6 +17,7 @@ class ParserResult{
         virtual ~ParserResult();
         uint32_t getType() const;
         uint32_t getCRC32() const;
+        virtual std::string inspect();
         std::string getFilePath() const;
         virtual void dump(std::string pathOut);
 };
