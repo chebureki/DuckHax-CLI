@@ -38,11 +38,12 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     return result;
 }
 
-std::string BitmapResult::inspect(){
-    std::string output = INSPECTSEP+getFilePath()+'\n';
-    char *dst;
-    sprintf(dst, "\nDimensions: %d x %d\nType: %d\n",m_width,m_width,m_type);
-    return output+dst+INSPECTSEP;
+std::string BitmapResult::inspectSpecific(){
+    //TODO: fix this formatting monstrosity!
+    std::string output = "";
+    char dst[32];
+    sprintf(dst, "Dimensions: %d x %d\nType: %d\n",m_width,m_width,m_type);
+    return output+dst;
 }
 
 void BitmapResult::dump(std::string pathOut){

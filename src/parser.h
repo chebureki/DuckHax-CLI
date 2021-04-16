@@ -17,7 +17,8 @@ class ParserResult{
         virtual ~ParserResult();
         uint32_t getType() const;
         uint32_t getCRC32() const;
-        virtual std::string inspect();
+        virtual std::string inspectSpecific(); // returns file-path, file-type, ... and so forth
+        std::string inspect(); // returns file-path, file-type, ... and so forth, followed by file-specifics
         std::string getFilePath() const;
         virtual void dump(std::string pathOut);
 };

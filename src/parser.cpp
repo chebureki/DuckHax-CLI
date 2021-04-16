@@ -1,6 +1,9 @@
 #include "parser.h"
+#include "zounaclasses.h"
+
 #include <stdio.h>
 #include <iostream>
+#include <string.h>
 
 uint32_t ParserResult::getType()const {
     return m_type;
@@ -16,7 +19,11 @@ ParserResult *Parser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
 };
 
 std::string ParserResult::inspect(){
-    return std::string("")+INSPECTSEP+ "NOT IMPLEMENTED, sorry :P\n"+INSPECTSEP;
+    //TODO: fix this madness
+    std::string output = INSPECTSEP;
+    char buff[128];
+    sprintf(buff,"Path %s:\nType: %s\n",m_pathToFile.c_str(),CRC32Lookup::getClassName(m_type));
+    return (output+buff+INSPECTSEP)+inspectSpecific()+INSPECTSEP;
 }
 
 Parser::Parser(){};
@@ -25,6 +32,11 @@ Parser::~Parser(){};
 void ParserResult::dump(std::string pathOut){
     throw std::logic_error("You shouldn't dump an meta-class, you dingus!");
 }
+
+std::string ParserResult::inspectSpecific(){
+    return "Can't decipher file, sorry :/\n";
+}
+
 std::string ParserResult::getFilePath() const{
     return m_pathToFile;
 };

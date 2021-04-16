@@ -14,7 +14,7 @@ public:
     uint32_t getWidth();
     uint32_t getHeight();
     uint8_t getBitmapType();
-    std::string inspect() override;
+    std::string inspectSpecific() override;
 private:
     BitmapResult(std::string pathIn);
 
