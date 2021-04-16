@@ -120,3 +120,16 @@ DPCResult::~DPCResult(){
         folder.clear();
     m_folders.clear();
 };
+
+std::string DPCResult::inspectSpecific(){
+    //TODO: fix this formatting monstrosity!
+    std::string output = "Total of "+std::to_string(m_folders.size())+ " folders!\n";
+    for (auto const folder: m_folders){
+        output += "\n\tAmount of files: "+ std::to_string(folder.size())+ '\n';
+        for(auto const file: folder){
+            output+= "\n\t\tType: "+ std::string(CRC32Lookup::getClassName(file.type))+'\n';
+            output+= "\t\tSize: "+ std::to_string(file.size)+'\n';
+        }
+    }
+    return output;
+}

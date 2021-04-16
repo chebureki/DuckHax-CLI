@@ -17,6 +17,7 @@ class DPCResult : public ParserResult{
 public:
     ~DPCResult();
     void dump(std::string pathOut) override;
+    std::string inspectSpecific() override;
     friend class DPCParser;
 private:
     DPCResult(std::string pathIn);

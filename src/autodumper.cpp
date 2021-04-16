@@ -51,6 +51,7 @@ Parser *getMatchingParser(std::string pathIn, CRC32Lookup crc){
 
     case ZounaClasses::DPC:
         parser = new DPCParser;
+        break;
     default:
         //Unknown file
         return nullptr;
