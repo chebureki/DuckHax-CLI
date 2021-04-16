@@ -66,5 +66,16 @@ void SdxResult::dump(std::string pathOut){
 SdxResult::SdxResult(std::string pathIn): ParserResult(ZounaClasses::sdx,pathIn){};
 SdxResult::~SdxResult(){
     //packetbuff is deallocated by soundresult!
+    //TODO: fix this behavior, what if we would want to dump multiple times?
     m_dialogs.clear();
+}
+
+std::string SdxResult::inspectSpecific(){
+    //TODO: fix this formatting monstrosity!
+    std::string output = "Total of "+std::to_string(m_dialogs.size())+ " dialogs!\n";
+    for (auto const dialog: m_dialogs){
+        output += "\n\tName: "+ dialog.name+ '\n';
+        output += "\tSize: "+ std::to_string(dialog.size)+ '\n';
+    }
+    return output;
 }
