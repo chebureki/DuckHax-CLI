@@ -11,6 +11,7 @@ class SoundResult : public ParserResult{
 public:
     ~SoundResult();
     void dump(std::string pathOut) override;
+    std::string inspectSpecific() override;
     friend class SoundParser;
     friend class SdxResult;
 

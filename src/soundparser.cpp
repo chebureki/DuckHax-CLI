@@ -77,3 +77,12 @@ void SoundResult::dump(std::string pathOut){
     fclose(file);
     return;
 }
+
+std::string SoundResult::inspectSpecific(){
+    //TODO: fix this formatting monstrosity!
+    //std::string output = "Total of "+std::to_string(m_dialogs.size())+ " dialogs!\n";
+    std::string output = "";
+    output += "Amount of PCM packets: " + std::to_string(m_countPackets) +'\n';
+    output += "Framerate: " + std::to_string(m_frameRate) +'\n';
+    return output;
+}
