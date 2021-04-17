@@ -1,0 +1,39 @@
+/*
+    THIS IS PURE HACKISH SHITTERY
+    Purpose: get the file-size in 010-editor
+*/
+
+SetCursorPos(0xffffffff);
+SetCursorPos(0xffffffff);
+SetCursorPos(0xffffffff);
+SetCursorPos(0xffffffff);
+SetCursorPos(0xffffffff);
+local uint32 fileSize = GetCursorPos();
+//Pretend that there was a nice way to get the file-size
+
+struct DPC{
+    struct{
+        char fileMagic[49];
+        byte padding1[0x100-sizeof(fileMagic)];
+    
+        uint32 blockSize;
+        uint32 u1;
+        uint32 u2;
+        uint32 u3;
+    } header;
+    byte padding2[0x800-0x110];
+    struct DPCFolder{
+        
+        uint32 numFiles;
+        local uint32 folderSize=0;
+        struct DPCFile{
+            //The fileheader will be included in a dumped file!
+            //Reason: cuz it's easy to extract the class CRC that way :)
+            uint32 fileSize;
+            uint32 fileCRC;
+            ubyte fileData[fileSize-8];
+            folderSize = folderSize + fileSize;
+        }files [numFiles] <optimize=false>;
+        byte padding3[header.blockSize-folderSize -4 ] <optimize=false>;
+    } folders[(int)(fileSize/header.blockSize)] <optimize=false>;
+} dpc;
