@@ -22,6 +22,7 @@ public:
 private:
     DPCResult(std::string pathIn);
     std::vector<DPCFolder> m_folders;
+    uint32_t m_blockSize;
 };
 
 class DPCParser : public Parser{
