@@ -16,7 +16,7 @@ struct DPC{
         char fileMagic[49];
         byte padding1[0x100-sizeof(fileMagic)];
     
-        uint32 blockSize;
+        uint32 blockSize <format=hex>;
         uint32 u1;
         uint32 u2;
         uint32 u3;
@@ -30,7 +30,7 @@ struct DPC{
             //The fileheader will be included in a dumped file!
             //Reason: cuz it's easy to extract the class CRC that way :)
             uint32 fileSize;
-            uint32 fileCRC;
+            uint32 fileCRC <format=hex>;
             ubyte fileData[fileSize-8];
             folderSize = folderSize + fileSize;
         }files [numFiles] <optimize=false>;
