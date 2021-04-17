@@ -33,8 +33,7 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     fread(&result->m_blockSize,4,1,file);
     fseek(file,0x800,SEEK_SET); // start of first folder
 
-    while(true){
-        uint32_t init = ftell(file);
+    for(int i=0;i<(int)(totalSize/result->m_blockSize);i++){
         int numFiles; //TODO: do sanity checks
         DPCFolder currFolder;
         fread(&numFiles,4,1,file);
@@ -43,26 +42,24 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
             throw std::runtime_error("Invalid number or files: "+std::to_string(numFiles)+", in "+pathIn+"\nOffset is: "+std::to_string(ftell(file))+"\n");
         }
 
+        uint32_t folderSize = 0;
         for(int i=0;i<numFiles;i++){
             DPCFileData dpcFile;
-            fread(&dpcFile.size,4,1,file);
-            dpcFile.size -= 4;
+
             dpcFile.offset = ftell(file);
+            fread(&dpcFile.size,4,1,file);
+            folderSize+=dpcFile.size;
+
             uint32_t crc;
             fread(&crc,4,1,file);
-            fseek(file,-4,SEEK_CUR);
             dpcFile.type = crcLookup.getClass(crc);
-            fseek(file,dpcFile.size,SEEK_CUR);
 
+            fseek(file,-8,SEEK_CUR);
+            fseek(file,dpcFile.size,SEEK_CUR);
             currFolder.push_back(dpcFile);
         }
         result->m_folders.push_back(currFolder);
-        uint32_t end = ftell(file);
-
-        uint32_t predicted = init+((end-init )+(result->m_blockSize-(end-init)));
-        if(predicted > totalSize)//done with last folder!
-            break;
-        fseek(file,predicted,SEEK_SET);
+        fseek(file, result->m_blockSize-folderSize-4,SEEK_CUR);
     }
     fclose(file);
     return result;

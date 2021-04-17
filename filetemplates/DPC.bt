@@ -31,7 +31,7 @@ struct DPC{
             //Reason: cuz it's easy to extract the class CRC that way :)
             uint32 fileSize;
             uint32 fileCRC <format=hex>;
-            ubyte fileData[fileSize-8];
+            ubyte fileData[fileSize-8]; //imagine if we seeked back 8 bytes
             folderSize = folderSize + fileSize;
         }files [numFiles] <optimize=false>;
         byte padding3[header.blockSize-folderSize -4 ] <optimize=false>;
