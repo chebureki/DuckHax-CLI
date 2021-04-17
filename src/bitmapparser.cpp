@@ -22,17 +22,17 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     if (file == nullptr){
         throw std::invalid_argument("Can't open "+pathIn+" for reading!");
     }
-
+    fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t fileMagic;
     fread(&fileMagic,4,1,file);
     if (crcLookup.getClass(fileMagic) != ZounaClasses::Bitmap_Z)
         throw std::invalid_argument(pathIn+" is not a bitmap file!");
 
-    fseek(file, 0xC,SEEK_SET);
+    fseek(file, 0x10,SEEK_SET);
     fread(&result->m_width,4,1,file);
     fread(&result->m_height,4,1,file);
 
-    fseek(file, 0x18,SEEK_SET);
+    fseek(file, 0x1C,SEEK_SET);
     fread(&result->m_type,1,1,file);
     fclose(file);
     return result;
@@ -80,7 +80,7 @@ void BitmapResult::dump(std::string pathOut){
     FILE *bmFile = fopen(getFilePath().c_str(),"rb");
     if (bmFile == nullptr)
         throw std::runtime_error("Can't create "+getFilePath()+" for reading!\n");
-    fseek(bmFile, 0x1E, SEEK_SET); //seek to start, same for all types
+    fseek(bmFile, 0x22, SEEK_SET); //seek to start, same for all types
     switch(m_type){
     case 0xA:
         data = generateRGBA(bmFile);

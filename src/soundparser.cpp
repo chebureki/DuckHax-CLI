@@ -44,6 +44,7 @@ SoundResult *SoundParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
         throw std::runtime_error("Can't open "+pathIn+" for reading!");
     SoundResult *result = new SoundResult(pathIn);
 
+    fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t fileMagic;
     fread(&fileMagic,4,1,file);
     if(crcLookup.getClass(fileMagic) != ZounaClasses::Sound_Z){
@@ -51,10 +52,10 @@ SoundResult *SoundParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
         delete result;
         throw std::runtime_error(pathIn+" is not a soundfile!");
     }
-    fseek(file,0x10,SEEK_SET);
+    fseek(file,0x14,SEEK_SET);
     fread(&result->m_frameRate,4,1,file);
 
-    fseek(file,0x18,SEEK_SET);
+    fseek(file,0x1c,SEEK_SET);
     fread(&result->m_countPackets,4,1,file);
 
     result->m_packetBuff = new uint8_t[result->m_countPackets];

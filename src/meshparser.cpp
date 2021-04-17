@@ -49,14 +49,15 @@ MeshResult *MeshParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     if(file == nullptr){
         throw std::invalid_argument("Can't open "+pathIn+" for reading!");
     }
-        uint32_t fileMagic;
+    fseek(file,4,SEEK_SET); //ignore the file-size!
+    uint32_t fileMagic;
     fread(&fileMagic,4,1,file);
     if(crcLookup.getClass(fileMagic) != ZounaClasses::Mesh_Z)
         throw std::invalid_argument(pathIn+" is not a mesh file!");
 
     //Please ignore this p.o.s. code, I do not know all the variables myself
     //TODO: create a reading macro so declaration and reading are in one line
-    fseek(file,92,SEEK_SET);
+    fseek(file,96,SEEK_SET);
     fread(&result->m_countVertice,4,1,file);
 
     for(int i=0;i<(int)result->m_countVertice;i++){

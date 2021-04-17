@@ -14,6 +14,7 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr)
         throw std::runtime_error("Can't open "+pathIn+" for reading!\n");
+    fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t classCRC;
     fread(&classCRC,4,1,file);
     fclose(file);
