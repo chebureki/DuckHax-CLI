@@ -22,7 +22,7 @@ std::string ParserResult::inspect(){
     //TODO: fix this madness
     std::string output = INSPECTSEP;
     char buff[128];
-    sprintf(buff,"Path %s:\nType: %s\n",m_pathToFile.c_str(),CRC32Lookup::getClassName(m_type));
+    sprintf(buff,"Path: %s\nType: %s\n",m_pathToFile.c_str(),CRC32Lookup::getClassName(m_type));
     return (output+buff+INSPECTSEP)+inspectSpecific()+INSPECTSEP;
 }
 
