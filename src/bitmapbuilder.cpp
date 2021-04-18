@@ -113,6 +113,7 @@ void BitmapResult::build(std::string source, std::string pathOut){
     uint32_t zero = 0;
     fwrite(&zero,4,1,file);
     fclose(file);
+    freeData(data,m_height);
 }
 
 void BitmapResult::writeMonoAlphaRGBFull(FILE *file, png_bytepp rows){

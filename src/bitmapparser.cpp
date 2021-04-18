@@ -10,7 +10,7 @@
 BitmapParser::BitmapParser(){}
 BitmapParser::~BitmapParser(){}
 
-void freeData(png_bytepp data, int height){
+void BitmapResult::freeData(png_bytepp data, int height){
     for(int i=0;i<height;i++)
         free(data[i]);
     free(data);

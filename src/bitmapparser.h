@@ -25,6 +25,7 @@ private:
     png_bytepp generateRGB();
     png_bytepp generateMonoAlphaRGBFull();
 
+    void freeData(png_bytepp data, int height);
     void writeMonoAlphaRGBFull(FILE *file, png_bytepp rows);
     void writeRGB(FILE *file, png_bytepp rows);
     void writeRGBA(FILE *file, png_bytepp rows);
