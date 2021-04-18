@@ -241,7 +241,7 @@ public:
     CRC32Lookup();
     ~CRC32Lookup();
     ZounaClasses getClass(uint32_t crc);
-    uint32_t calculateCRC32(std::string input);
+    static uint32_t calculateCRC32(std::string input);
     const static char *getClassName(ZounaClasses id);
 private:
     //Map

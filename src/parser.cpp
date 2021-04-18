@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string.h>
 
+void ParserResult::build(std::string pathIn, std::string pathOut){
+    std::cerr<<"Building for "<< CRC32Lookup::getClassName(m_type) << " is not supported, yet!\n";
+}
 uint32_t ParserResult::getType()const {
     return m_type;
 }
@@ -41,5 +44,7 @@ std::string ParserResult::getFilePath() const{
     return m_pathToFile;
 };
 
-ParserResult::ParserResult(ZounaClasses type, std::string pathToFile): m_type(type), m_pathToFile(pathToFile){};
+ParserResult::ParserResult(ZounaClasses type, std::string pathToFile): m_type(type), m_pathToFile(pathToFile){
+    m_crc32 = CRC32Lookup::calculateCRC32(CRC32Lookup::getClassName(type)); //TODO: fix this waste of computing power!
+};
 ParserResult::~ParserResult(){};

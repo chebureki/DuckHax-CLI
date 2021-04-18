@@ -11,19 +11,32 @@ public:
     ~BitmapResult();
     void dump(std::string pathOut) override;
     friend class BitmapParser;
+    friend class BitmapBuilder;
     uint32_t getWidth();
     uint32_t getHeight();
     uint8_t getBitmapType();
     std::string inspectSpecific() override;
+
+    void build(std::string pathIn,std::string pathOut) override;
 private:
     BitmapResult(std::string pathIn);
 
-    png_bytepp generateRGBA(FILE *file);
-    png_bytepp generateRGB(FILE *file);
-    png_bytepp generateMonoAlphaRGBFull(FILE *file);
+    png_bytepp generateRGBA();
+    png_bytepp generateRGB();
+    png_bytepp generateMonoAlphaRGBFull();
+
+    void writeMonoAlphaRGBFull(FILE *file, png_bytepp rows);
+    void writeRGB(FILE *file, png_bytepp rows);
+    void writeRGBA(FILE *file, png_bytepp rows);
+
+    uint32_t uCRC1;
+    uint32_t uCRC2;
     uint32_t m_width;
     uint32_t m_height;
+    uint32_t u1;
     uint8_t m_type;
+    uint32_t u2;
+    uint16_t *m_pixels;
 };
 
 class BitmapParser : public Parser{

@@ -21,7 +21,8 @@ int main(int argc, char **argv)
     int c;
     char *pathIn = nullptr;
     char *pathOut = nullptr;
-    while((c = getopt(argc-1 , argv+1,"i:o:")) != -1){
+    char *pathRef = nullptr;
+    while((c = getopt(argc-1 , argv+1,"i:o:r:")) != -1){
         switch(c){
         case 'i':
             pathIn = optarg;
@@ -29,6 +30,9 @@ int main(int argc, char **argv)
         case 'o':
             pathOut = optarg;
             break;
+        case 'r':
+                pathRef = optarg;
+                break;
         case '?':
             printHelp();
             exit(1);
@@ -67,6 +71,38 @@ int main(int argc, char **argv)
             exit(1);
         }
         std::cout<<result->inspect();
+        exit(0);
+    }
+
+    //TODO:
+    //this code is duplicated multiple times, what if we did the same stuff
+    //for all operations and only do the mode specific stuff?
+    if(strcmp(mode,"build") == 0){
+        if (pathIn== nullptr){
+            std::cerr <<"Specify an input\n";
+            exit(1);
+        }
+        if (pathOut== nullptr){
+            std::cerr <<"Specify an input\n";
+            exit(1);
+        }
+        if (pathRef == nullptr){
+            std::cerr <<"Specify a reference\n";
+            exit(1);
+        }
+        std::string refPath = pathRef;
+
+        Parser *parser = getMatchingParser(refPath,crc);
+        if (parser == nullptr){
+            std::cerr << "Invalid or unknown file!\n";
+            exit(1);
+        }
+        ParserResult *result = parser->parseFile(refPath,crc);
+        if( result == nullptr){
+            std::cerr << "Couldn't parse the given file :(\n";
+            exit(1);
+        }
+        result->build(std::string(pathIn),std::string(pathOut));
         exit(0);
     }
     printHelp();

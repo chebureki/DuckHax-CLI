@@ -1,4 +1,5 @@
 struct Bitmap_Z{
+    uint32 fileSize;
     uint32 classCRC; // 83 8c 28 FB
     uint32 uCRC1;
     uint32 uCRC2;
@@ -11,5 +12,6 @@ struct Bitmap_Z{
     uint32 u2;
     ubyte startIndicator;
     
-    uint16 pixels[width*height]; 
+    uint16 pixels[(int)(width*height)] <optimize=false>;
+    uint32 zero;
 }bitmap;

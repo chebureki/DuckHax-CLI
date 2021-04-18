@@ -28,6 +28,7 @@ set (SRCS
     src/zounaclasses.cpp
     src/soundparser.cpp
     src/sdxparser.cpp
+    src/bitmapbuilder.cpp
 )
 
 

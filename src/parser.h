@@ -21,6 +21,8 @@ class ParserResult{
         std::string inspect(); // returns file-path, file-type, ... and so forth, followed by file-specifics
         std::string getFilePath() const;
         virtual void dump(std::string pathOut);
+
+        virtual void build(std::string pathIn, std::string pathOut);
 };
 
 

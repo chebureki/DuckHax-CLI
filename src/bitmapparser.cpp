@@ -27,13 +27,16 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     fread(&fileMagic,4,1,file);
     if (crcLookup.getClass(fileMagic) != ZounaClasses::Bitmap_Z)
         throw std::invalid_argument(pathIn+" is not a bitmap file!");
-
-    fseek(file, 0x10,SEEK_SET);
+    fread(&result->uCRC1,4,1,file);
+    fread(&result->uCRC2,4,1,file);
     fread(&result->m_width,4,1,file);
     fread(&result->m_height,4,1,file);
-
-    fseek(file, 0x1C,SEEK_SET);
+    fread(&result->u1,4,1,file);
     fread(&result->m_type,1,1,file);
+    fread(&result->u2,4,1,file);
+    fseek(file,1,SEEK_CUR); // Skip the 0x15 byte
+    result->m_pixels = new uint16_t[result->m_width*result->m_height];
+    fread(result->m_pixels,2,result->m_width*result->m_height,file);
     fclose(file);
     return result;
 }
@@ -77,19 +80,15 @@ void BitmapResult::dump(std::string pathOut){
     png_write_info(png,pngInfo);
 
     png_bytepp data;
-    FILE *bmFile = fopen(getFilePath().c_str(),"rb");
-    if (bmFile == nullptr)
-        throw std::runtime_error("Can't create "+getFilePath()+" for reading!\n");
-    fseek(bmFile, 0x22, SEEK_SET); //seek to start, same for all types
     switch(m_type){
     case 0xA:
-        data = generateRGBA(bmFile);
+        data = generateRGBA();
         break;
     case 0x7:
-        data = generateMonoAlphaRGBFull(bmFile);
+        data = generateMonoAlphaRGBFull();
         break;
     case 0x8:
-        data = generateRGB(bmFile);
+        data = generateRGB();
         break;
 
     default:
@@ -99,20 +98,19 @@ void BitmapResult::dump(std::string pathOut){
     png_write_end(png, nullptr);
     png_destroy_write_struct(&png,&pngInfo);
     fclose(file);
-    fclose(bmFile);
     freeData(data,m_height);
 }
 
 BitmapResult::BitmapResult(std::string pathIn): ParserResult(ZounaClasses::Bitmap_Z,pathIn){};
 BitmapResult::~BitmapResult(){
-
+    delete[] m_pixels;
 };
 
 uint8_t BitmapResult::getBitmapType(){
     return m_type;
 }
 
-png_bytepp BitmapResult::generateRGBA(FILE *file){
+png_bytepp BitmapResult::generateRGBA(){
     const int rowbytes = m_width * 4;
     png_bytepp row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * m_height);
 
@@ -124,8 +122,7 @@ png_bytepp BitmapResult::generateRGBA(FILE *file){
         png_bytep row = row_ptr[y];
 
         for (uint32_t x=0; x<m_width; ++x){
-            uint16_t pixel;
-            fread(&pixel,2,1, file);
+            uint16_t pixel = m_pixels[(y*m_width) + x];
             png_bytep p = &row[x*4];
             p[0] =  ((pixel&0x0f00)>>8)*16; //r
             p[1] =  ((pixel&0x00f0)>>4)*16; //g
@@ -135,7 +132,8 @@ png_bytepp BitmapResult::generateRGBA(FILE *file){
     }
     return row_ptr;
 }
-png_bytepp BitmapResult::generateMonoAlphaRGBFull(FILE *file){
+
+png_bytepp BitmapResult::generateMonoAlphaRGBFull(){
     const int rowbytes = m_width * 4;
     png_bytepp row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * m_height);
 
@@ -147,8 +145,7 @@ png_bytepp BitmapResult::generateMonoAlphaRGBFull(FILE *file){
         png_bytep row = row_ptr[y];
 
         for (uint32_t x=0; x<m_width; ++x){
-            uint16_t pixel;
-            fread(&pixel,2,1, file);
+            uint16_t pixel = m_pixels[(y*m_width) + x];
             png_bytep p = &row[x*4];
             p[0] =  ((pixel&0x7C00)>>10) * 8; //r
             p[1] =  ((pixel&0x03E0)>>5) * 8; //g
@@ -159,7 +156,7 @@ png_bytepp BitmapResult::generateMonoAlphaRGBFull(FILE *file){
     return row_ptr;
 }
 
-png_bytepp BitmapResult::generateRGB(FILE *file){
+png_bytepp BitmapResult::generateRGB(){
     const int rowbytes = m_width * 4;
     png_bytepp row_ptr = (png_bytepp)malloc(sizeof(png_bytep) * m_height);
 
@@ -171,8 +168,7 @@ png_bytepp BitmapResult::generateRGB(FILE *file){
         png_bytep row = row_ptr[y];
 
         for (uint32_t x=0; x<m_width; ++x){
-            uint16_t pixel;
-            fread(&pixel,2,1, file);
+            uint16_t pixel = m_pixels[(y*m_width) + x];
             png_bytep p = &row[x*4];
             p[0] =  ((pixel&0xf800)>>11) * 8; //r
             p[1] =  ((pixel&(0x07C0))>>6) * 8; //g
