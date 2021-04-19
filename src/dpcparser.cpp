@@ -54,7 +54,8 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
             fread(&crc,4,1,file);
             dpcFile.type = crcLookup.getClass(crc);
 
-            fseek(file,-8,SEEK_CUR);
+            fread(&dpcFile.fileCRC,4,1,file);
+            fseek(file,-12,SEEK_CUR);
             fseek(file,dpcFile.size,SEEK_CUR);
             currFolder.push_back(dpcFile);
         }
@@ -110,6 +111,16 @@ DPCResult::~DPCResult(){
     m_folders.clear();
 };
 
+//maybe template and place in the parsinghelper header for future use?
+std::string to_hex_string(uint val){
+    char chars[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+    std::string hex = "0x";
+    for(int i=7;i>=0;i--){
+        hex += chars[(val&(0xf<<(i*4)))>>(i*4)];
+    }
+    return hex;
+}
+
 std::string DPCResult::inspectSpecific(){
     //TODO: fix this formatting monstrosity!
     std::string output = "Block-size: "+std::to_string(m_blockSize)+ "\n\n";
@@ -118,6 +129,7 @@ std::string DPCResult::inspectSpecific(){
         output += "\n\tAmount of files: "+ std::to_string(folder.size())+ '\n';
         for(auto const file: folder){
             output+= "\n\t\tType: "+ std::string(CRC32Lookup::getClassName(file.type))+'\n';
+            output+= "\t\tCRC: "+ to_hex_string(file.fileCRC)+'\n';
             output+= "\t\tSize: "+ std::to_string(file.size)+'\n';
         }
     }
