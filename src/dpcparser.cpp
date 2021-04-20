@@ -31,6 +31,9 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     uint32_t totalSize = ftell(file);
     fseek(file,0x100,SEEK_SET);
     fread(&result->m_blockSize,4,1,file);
+    fread(&result->u1,4,1,file);
+    fread(&result->u2,4,1,file);
+    fread(&result->u3,4,1,file);
     fseek(file,0x800,SEEK_SET); // start of first folder
 
     for(int i=0;i<(int)(totalSize/result->m_blockSize);i++){

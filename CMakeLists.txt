@@ -29,6 +29,7 @@ set (SRCS
     src/soundparser.cpp
     src/sdxparser.cpp
     src/bitmapbuilder.cpp
+    src/dpcbuilder.cpp
 )
 
 
