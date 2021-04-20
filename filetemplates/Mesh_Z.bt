@@ -1,0 +1,55 @@
+struct Vertex3f{
+    float x;
+    float y;
+    float z;
+};
+
+
+struct Mesh{
+    uint32 fileSize;
+    uint32 classCRC;
+    uint32 u0;
+    uint32 u1;
+    float u2[19];
+    uint32 u3;
+    
+    //pascal array
+    uint32 countVertices <bgcolor=cRed>;
+    Vertex3f vertices[countVertices] <bgcolor=cGreen>;
+
+    uint32 uCount1 <bgcolor=cRed>;
+    struct{
+        //is this texture mapping?
+        float u1;
+        float u2;
+    } u4 [uCount1] <bgcolor=cBlue>;
+    uint32 uCount2 <bgcolor=cRed>;
+    Vertex3f u5[uCount2] <bgcolor=cBlue>;
+    struct{
+        uint32 u10;
+        uint32 uCount3;
+        uint16 preIndices[uCount3];
+        struct{
+            uint32 u7;
+            uint32 u8;
+            uint32 u9;
+        
+            uint16 indices[u9];
+        } u7[u10-1] <optimize=false>;
+        uint32 u11;
+        uint32 u12;
+        uint32 padding1[u10] <bgcolor=cRed>;
+    } indiceStruct;
+    
+    struct{
+        uint32 u13;
+        
+        struct{
+            uint32 u14;
+            uint16 u15[u14*2] <optimize=false>;
+        }u14[u13] <optimize=false>;
+    } otherIndiceStruct <optimize=false>;
+    ubyte end;
+};
+
+Mesh h;
