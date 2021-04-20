@@ -1,4 +1,5 @@
 #include "meshparser.h"
+#include "errormessages.h"
 
 #include <stdio.h>
 #include <stdexcept>
@@ -34,7 +35,7 @@ std::string objVertice(std::vector<Vertex3f> vertice){
 void MeshResult::dump(std::string pathOut){
     FILE *file = fopen(pathOut.c_str(),"wb");
     if(file == nullptr)
-        throw std::invalid_argument("Can't open "+pathOut+" for writing!");
+        throw CANT_WRITE(pathOut.c_str());
     std::string obj = "";
     obj+=objVertice(m_vertices);
     obj+=objTriangleStrip(m_strips);
@@ -47,7 +48,7 @@ MeshResult *MeshParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     MeshResult *result = new MeshResult(pathIn);
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr){
-        throw std::invalid_argument("Can't open "+pathIn+" for reading!");
+        throw CANT_READ(pathIn.c_str());
     }
     fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t fileMagic;

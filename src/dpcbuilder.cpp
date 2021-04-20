@@ -1,5 +1,6 @@
 #include "dpcparser.h"
 #include "parsinghelper.h"
+#include "errormessages.h"
 
 #include <stdio.h>
 #include <dirent.h>
@@ -38,7 +39,7 @@ void DPCResult::writeFolder(FILE *file, std::string path){
     dir = opendir(path.c_str());
 
     if (dir == nullptr)
-        throw std::runtime_error("what -> "+path+"\n");
+        throw CANT_READ(path.c_str());
     while( (entry=readdir(dir))){
         std::string childPath = entry->d_name;
         if (childPath=="." || childPath == "..")
@@ -63,10 +64,10 @@ void DPCResult::writeFolder(FILE *file, std::string path){
 
 void DPCResult::build(std::string source, std::string pathOut){
     if(!isADirectory(source))
-    throw std::runtime_error(source+" is not a directory !\n");
+        throw NOT_A_DIR(source.c_str());
     FILE *file = fopen(pathOut.c_str(),"wb");
     if(file == nullptr)
-    throw std::runtime_error("Couldn't open "+pathOut+ " for writing!\n");
+        throw CANT_WRITE(pathOut.c_str());
     writeDPCMagic(file);
     writeHeader(file);
 

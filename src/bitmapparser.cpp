@@ -1,4 +1,5 @@
 #include "bitmapparser.h"
+#include "errormessages.h"
 
 #include <png.h>
 #include <stdio.h>
@@ -20,7 +21,7 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     BitmapResult *result = new BitmapResult(pathIn);
     FILE *file = fopen(pathIn.c_str(),"rb");
     if (file == nullptr){
-        throw std::invalid_argument("Can't open "+pathIn+" for reading!");
+         throw CANT_READ(pathIn.c_str());
     }
     fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t fileMagic;
@@ -52,7 +53,7 @@ std::string BitmapResult::inspectSpecific(){
 void BitmapResult::dump(std::string pathOut){
     FILE *file = fopen(pathOut.c_str(),"wb");
     if(file == nullptr)
-        throw std::runtime_error("Can't create "+getFilePath()+" for writing!\n");
+        throw CANT_READ(pathOut.c_str());
 
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if(png == nullptr)

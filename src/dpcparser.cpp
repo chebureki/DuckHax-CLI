@@ -1,6 +1,7 @@
 #include "dpcparser.h"
 #include "zounaclasses.h"
 #include "parsinghelper.h"
+#include "errormessages.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -16,7 +17,7 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     FILE *file;
     file = fopen(pathIn.c_str(),"rb");
     if (file == nullptr){
-        throw std::runtime_error("Couldn't open "+pathIn+" for reading!");
+        throw CANT_READ(pathIn.c_str());
     }
 
     char fileMagic[49];
@@ -79,20 +80,20 @@ void DPCResult::dump(std::string pathOut){
     std::string path = pathOut;
     if(!isADirectory(path))
         if ( mkdir(path.c_str(), S_IRWXU)!=0)
-            throw std::runtime_error("Can't create "+path+" for writing!\n");
+            throw CANT_MKDIR(path.c_str());
     int folderIndex=1;
     for(auto const &folder : m_folders){
         std::string folderPath = path+std::to_string(folderIndex)+SEP;
 
         if(!isADirectory(folderPath))
             if ( mkdir(folderPath.c_str(), S_IRWXU)!=0)
-                throw std::runtime_error("Can't create "+folderPath+" for writing!\n");
+                throw CANT_MKDIR(folderPath.c_str());
         int fileIndex=1;
         for(auto const dpcFile : folder){
             std::string path = folderPath+std::to_string(fileIndex)+'.'+CRC32Lookup::getClassName(dpcFile.type);
             FILE *file = fopen(path.c_str(),"wb");
             if(file == nullptr)
-                 throw std::runtime_error("Can't create "+path+" for writing!\n");
+                throw CANT_WRITE(path.c_str());
             fseek(inputFile,dpcFile.offset,SEEK_SET);
             fread(&fileBuff,1,dpcFile.size,inputFile);
             fwrite(&fileBuff,1,dpcFile.size,file);

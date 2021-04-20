@@ -1,4 +1,5 @@
 #include "soundparser.h"
+#include "errormessages.h"
 
 #include <string>
 #include <stdio.h>
@@ -41,7 +42,7 @@ void SoundResult::writeWaveHeader(FILE *file){
 SoundResult *SoundParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr)
-        throw std::runtime_error("Can't open "+pathIn+" for reading!");
+        throw CANT_READ(pathIn.c_str());
     SoundResult *result = new SoundResult(pathIn);
 
     fseek(file,4,SEEK_SET); //ignore the file-size!
@@ -72,7 +73,7 @@ SoundResult::~SoundResult(){
 void SoundResult::dump(std::string pathOut){
     FILE *file = fopen(pathOut.c_str(),"wb");
     if (file == nullptr)
-        throw std::runtime_error("Can't open "+pathOut+" for writing!");
+        throw CANT_WRITE(pathOut.c_str());
     writeWaveHeader(file);
     fwrite(m_packetBuff,1,m_countPackets,file);
     fclose(file);

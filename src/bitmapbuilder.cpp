@@ -1,4 +1,5 @@
 #include "bitmapparser.h"
+#include "errormessages.h"
 
 #include <png.h>
 #include <iostream>
@@ -10,7 +11,7 @@ png_bytepp readPngFile(std::string path, int *rowBytes, int *width, int*height){
     unsigned char header[8];
     FILE *file = fopen(path.c_str(),"rb");
     if (file == nullptr)
-        throw std::runtime_error("Couldn't open "+path+" for reading!\n");
+        throw CANT_READ(path.c_str());
 
     const int cmpNum = 8;
     if( fread(header,1,cmpNum,file) != cmpNum){
@@ -64,7 +65,7 @@ png_bytepp readPngFile(std::string path, int *rowBytes, int *width, int*height){
 void BitmapResult::build(std::string source, std::string pathOut){
     FILE *file = fopen(pathOut.c_str(),"wb");
     if(file == nullptr)
-        throw std::runtime_error("Couldn't open "+pathOut+" for writing!\n");
+        throw CANT_WRITE(pathOut.c_str());
 
     int fileSize = 4+4+4+4+4+4+4+1+4+1+(2*(m_height * m_width))+4;
     fwrite(&fileSize,4,1,file);

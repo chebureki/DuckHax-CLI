@@ -1,11 +1,13 @@
 #include "autodumper.h"
 #include "parsinghelper.h"
+#include "errormessages.h"
 
 #include <iostream>
 #include <string>
 #include <iostream>
 #include <unistd.h>
 #include <string.h>
+
 
 void printHelp(){
     std::cout<<"USAGE: DuckHax [MODE] -i INPUT -o OUTPUT\nMODES: dump | inspect \n";
@@ -17,7 +19,6 @@ int main(int argc, char **argv)
         printHelp();
         exit(1);
     }
-
     int c;
     char *pathIn = nullptr;
     char *pathOut = nullptr;

@@ -5,6 +5,8 @@
 #include "sdxparser.h"
 #include "soundparser.h"
 #include "parsinghelper.h"
+#include "errormessages.h"
+
 #include <dirent.h>
 #include <sys/stat.h>
 #include <iostream>
@@ -13,7 +15,7 @@
 ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr)
-        throw std::runtime_error("Can't open "+pathIn+" for reading!\n");
+        throw CANT_READ(pathIn.c_str());
     fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t classCRC;
     fread(&classCRC,4,1,file);
@@ -78,7 +80,7 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
                 std::string newbase= trailFolder(baseNamePathOut)+childPath;
                 if (!isADirectory(newbase))
                     if ( mkdir(newbase.c_str(), 0700) != 0)
-                        throw std::runtime_error("Can't create "+newbase+" for writing!\n");
+                        throw CANT_WRITE(newbase.c_str());
                 autoDump(trailFolder(totalPath),trailFolder(newbase),crc,recursive);
                 continue;
             }
@@ -141,7 +143,7 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
     ParserResult *result;
     result = parser->parseFile(pathIn,crc);
     if (result == nullptr)
-        throw std::runtime_error("Failed to parse "+pathIn);
+        throw CANT_PARSE(pathIn.c_str());
     result->dump(baseNamePathOut+"."+fileExt);
     delete parser;
     delete result;

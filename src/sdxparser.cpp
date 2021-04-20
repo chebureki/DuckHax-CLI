@@ -1,6 +1,7 @@
 #include "sdxparser.h"
 #include "soundparser.h"
 #include "parsinghelper.h"
+#include "errormessages.h"
 
 #include <stdio.h>
 #include <stdexcept>
@@ -16,7 +17,7 @@ SdxParser::~SdxParser(){}
 SdxResult *SdxParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr)
-        throw std::runtime_error("Can't open "+pathIn+" for reading!\n");
+        throw CANT_READ(pathIn.c_str());
     SdxResult *result = new SdxResult(pathIn);
     while(1){
         char line[16];
@@ -49,7 +50,7 @@ SdxResult *SdxParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
 void SdxResult::dump(std::string pathOut){
     if(!isADirectory(pathOut))
         if ( mkdir(pathOut.c_str(), S_IRWXU)!=0)
-            throw std::runtime_error("Can't create "+pathOut+" for writing!\n");
+            throw CANT_WRITE(pathOut.c_str());
 
     for(const SdxDialog &dialog : m_dialogs){
         std::string path = pathOut+dialog.name;
