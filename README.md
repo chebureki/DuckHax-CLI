@@ -38,3 +38,11 @@ $ ./DuckHax dump -i pathToGameDir/ -o dump/
 ```sh
 $ ./DuckHax inspect -i pathToFile
 ```
+
+### Building:
+As of right now: **You will need a original file** as a reference -> only modifications are possible!
+
+There are just too many unknown variables!
+```sh
+$ ./DuckHax build -r pathToReference -i pathToFile -o pathOut
+```
