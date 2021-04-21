@@ -23,9 +23,6 @@ ParserResult *Parser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
 };
 
 std::string ParserResult::inspect(){
-    //TODO: fix this madness
-    //char buff[128];
-    //sprintf(buff,"Path: %s\n\nType: %s\n",m_pathToFile.c_str(),CRC32Lookup::getClassName(m_type));
     std::string inner = formatString("Path: %s\nCRC: %x\nType: %s\n",m_pathToFile.c_str(),m_nameCRC,CRC32Lookup::getClassName(m_type));
     return (INSPECTSEP+inner+INSPECTSEP)+inspectSpecific()+INSPECTSEP;
 }
