@@ -54,7 +54,7 @@ void SdxResult::dump(std::string pathOut){
 
     for(const SdxDialog &dialog : m_dialogs){
         std::string path = pathOut+dialog.name;
-        SoundResult sound(path);
+        SoundResult sound(path,0);
         sound.m_frameRate = 22050;
         sound.m_countPackets = dialog.size;
         sound.m_packetBuff = dialog.packetBuff;
@@ -64,7 +64,7 @@ void SdxResult::dump(std::string pathOut){
     return;
 }
 
-SdxResult::SdxResult(std::string pathIn): ParserResult(ZounaClasses::sdx,pathIn){};
+SdxResult::SdxResult(std::string pathIn): ParserResult(ZounaClasses::sdx,0,pathIn){};
 SdxResult::~SdxResult(){
     //packetbuff is deallocated by soundresult!
     //TODO: fix this behavior, what if we would want to dump multiple times?

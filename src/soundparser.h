@@ -17,7 +17,7 @@ public:
 
 private:
     void writeWaveHeader(FILE *file);
-    SoundResult(std::string pathIn);
+    SoundResult(std::string pathIn, uint32_t nameCRC);
     uint32_t m_countPackets;
     uint32_t m_countChannels; //TODO: is this really necessary? Aren't all soundfiles monochaneled?
     uint32_t m_frameRate;

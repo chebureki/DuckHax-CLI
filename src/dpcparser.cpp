@@ -108,7 +108,7 @@ void DPCResult::dump(std::string pathOut){
 DPCParser::DPCParser(){};
 DPCParser::~DPCParser(){
 };
-DPCResult::DPCResult(std::string pathIn): ParserResult(ZounaClasses::DPC,pathIn){};
+DPCResult::DPCResult(std::string pathIn): ParserResult(ZounaClasses::DPC, 0,pathIn){};
 DPCResult::~DPCResult(){
     for(auto folder: m_folders)
         folder.clear();

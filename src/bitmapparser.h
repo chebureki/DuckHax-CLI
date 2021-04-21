@@ -19,7 +19,7 @@ public:
 
     void build(std::string pathIn,std::string pathOut) override;
 private:
-    BitmapResult(std::string pathIn);
+    BitmapResult(std::string pathIn, uint32_t nameCRC);
 
     png_bytepp generateRGBA();
     png_bytepp generateRGB();

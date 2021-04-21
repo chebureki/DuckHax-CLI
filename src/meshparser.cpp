@@ -8,7 +8,7 @@
 MeshParser::MeshParser(){}
 MeshParser::~MeshParser(){}
 
-MeshResult::MeshResult(std::string pathIn): ParserResult(ZounaClasses::Mesh_Z,pathIn){};
+MeshResult::MeshResult(std::string pathIn, uint32_t nameCRC): ParserResult(ZounaClasses::Mesh_Z, nameCRC,pathIn){};
 MeshResult::~MeshResult(){};
 
 std::string objTriangleStrip(std::vector<TriangleStrip> strips){
@@ -45,7 +45,6 @@ void MeshResult::dump(std::string pathOut){
 }
 
 MeshResult *MeshParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
-    MeshResult *result = new MeshResult(pathIn);
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr){
         throw CANT_READ(pathIn.c_str());
@@ -56,6 +55,9 @@ MeshResult *MeshParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     if(crcLookup.getClass(fileMagic) != ZounaClasses::Mesh_Z)
         throw std::invalid_argument(pathIn+" is not a mesh file!");
 
+    uint32_t crc;
+    fread(&crc,4,1,file);
+    MeshResult *result = new MeshResult(pathIn,crc);
     //Please ignore this p.o.s. code, I do not know all the variables myself
     //TODO: create a reading macro so declaration and reading are in one line
     fseek(file,96,SEEK_SET);

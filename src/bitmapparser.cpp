@@ -18,7 +18,7 @@ void BitmapResult::freeData(png_bytepp data, int height){
 }
 
 BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
-    BitmapResult *result = new BitmapResult(pathIn);
+
     FILE *file = fopen(pathIn.c_str(),"rb");
     if (file == nullptr){
          throw CANT_READ(pathIn.c_str());
@@ -28,7 +28,9 @@ BitmapResult *BitmapParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     fread(&fileMagic,4,1,file);
     if (crcLookup.getClass(fileMagic) != ZounaClasses::Bitmap_Z)
         throw std::invalid_argument(pathIn+" is not a bitmap file!");
-    fread(&result->uCRC1,4,1,file);
+    uint32_t nameCRC;
+    fread(&nameCRC,4,1,file);
+    BitmapResult *result = new BitmapResult(pathIn,nameCRC);
     fread(&result->uCRC2,4,1,file);
     fread(&result->m_width,4,1,file);
     fread(&result->m_height,4,1,file);
@@ -102,7 +104,7 @@ void BitmapResult::dump(std::string pathOut){
     freeData(data,m_height);
 }
 
-BitmapResult::BitmapResult(std::string pathIn): ParserResult(ZounaClasses::Bitmap_Z,pathIn){};
+BitmapResult::BitmapResult(std::string pathIn, uint32_t nameCRC): ParserResult(ZounaClasses::Bitmap_Z,nameCRC,pathIn){};
 BitmapResult::~BitmapResult(){
     delete[] m_pixels;
 };

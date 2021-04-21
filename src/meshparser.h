@@ -29,7 +29,7 @@ public:
     uint32_t getVerticeCount();
     uint32_t getFaceCount();
 private:
-    MeshResult(std::string pathIn);
+    MeshResult(std::string pathIn, uint32_t nameCRC);
     uint32_t m_countVertice;
     uint32_t m_countFaces;
     uint32_t m_countStrips;

@@ -43,16 +43,18 @@ SoundResult *SoundParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     FILE *file = fopen(pathIn.c_str(),"rb");
     if(file == nullptr)
         throw CANT_READ(pathIn.c_str());
-    SoundResult *result = new SoundResult(pathIn);
+
 
     fseek(file,4,SEEK_SET); //ignore the file-size!
     uint32_t fileMagic;
     fread(&fileMagic,4,1,file);
     if(crcLookup.getClass(fileMagic) != ZounaClasses::Sound_Z){
         fclose(file);
-        delete result;
         throw std::runtime_error(pathIn+" is not a soundfile!");
     }
+    uint32_t nameCRC;
+    fread(&nameCRC,4,1,file);
+    SoundResult *result = new SoundResult(pathIn,nameCRC);
     fseek(file,0x14,SEEK_SET);
     fread(&result->m_frameRate,4,1,file);
 
@@ -65,7 +67,7 @@ SoundResult *SoundParser::parseFile(std::string pathIn, CRC32Lookup crcLookup){
     return result;
 }
 
-SoundResult::SoundResult(std::string pathIn): ParserResult(ZounaClasses::Sound_Z,pathIn){};
+SoundResult::SoundResult(std::string pathIn, uint32_t nameCRC): ParserResult(ZounaClasses::Sound_Z, nameCRC,pathIn){};
 SoundResult::~SoundResult(){
     delete[] m_packetBuff;
 }

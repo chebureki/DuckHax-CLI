@@ -9,11 +9,11 @@
 class ParserResult{
     private:
         ZounaClasses m_type;
-        uint32_t m_crc32;
+        uint32_t m_nameCRC;
         std::string m_pathToFile;
     public:
         friend class Parser;
-        ParserResult(ZounaClasses type, std::string pathToFile);
+        ParserResult(ZounaClasses type, uint32_t nameCRC, std::string pathToFile);
         virtual ~ParserResult();
         uint32_t getType() const;
         uint32_t getCRC32() const;
