@@ -29,10 +29,7 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     return zClass;
 }
 
-Parser *getMatchingParser(std::string pathIn, CRC32Lookup crc){
-    ZounaClasses type;
-    type = autoDetectFile(pathIn,crc);
-
+Parser *getMatchingParser(ZounaClasses type, CRC32Lookup crc){
     //TODO: avoid having to initialize a parser object every darn time
     Parser *parser;
     switch(type){
@@ -89,33 +86,24 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
         closedir(dir);
         return;
     }
-    ZounaClasses type;
-    try{
-        type = autoDetectFile(pathIn,crc);
-    }catch(std::runtime_error e){
-        std::cout<<e.what();
-        return;
-    }
+    ZounaClasses type = autoDetectFile(pathIn,crc);
     //TODO: avoid having to initialize a parser object every darn time
-    Parser *parser;
+    Parser *parser = getMatchingParser(type,crc);
+
     std::string fileExt;
     switch(type){
 
     case ZounaClasses::Bitmap_Z:
-        parser = new BitmapParser;
         fileExt="png";
         break;
     case ZounaClasses::Mesh_Z:
-        parser = new MeshParser;
         fileExt="obj";
         break;
 
     case ZounaClasses::Sound_Z:
-        parser = new SoundParser;
         fileExt="wav";
         break;
     case ZounaClasses::sdx:{
-        parser = new SdxParser;
         ParserResult *result = parser->parseFile(pathIn,crc);
         result->dump(trailFolder(baseNamePathOut));
         delete parser;
@@ -124,7 +112,6 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
     }
 
     case ZounaClasses::DPC:
-        parser = new DPCParser;
         try{
             ParserResult *result = parser->parseFile(pathIn,crc);
             std::string path = trailFolder(baseNamePathOut);
@@ -136,15 +123,20 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
             std::cout<<e.what();
         }
         return;
+    case ZounaClasses::UNKNOWN:
+        throw CANT_PARSE(pathIn.c_str());
     default:
-        //Unknown file
+        //How
         return;
     }
     ParserResult *result;
     result = parser->parseFile(pathIn,crc);
     if (result == nullptr)
         throw CANT_PARSE(pathIn.c_str());
-    result->dump(baseNamePathOut+"."+fileExt);
+    if (getFileExtension(baseNamePathOut).empty())
+        result->dump(baseNamePathOut+"."+fileExt);
+    else
+        result->dump(baseNamePathOut); //TODO: check given file-extension vs expected extension
     delete parser;
     delete result;
 }

@@ -61,7 +61,8 @@ int main(int argc, char **argv)
         }
         std::string inputPath = pathIn;
         std::cout << "Inspecting " << inputPath << "!\n";
-        Parser *parser = getMatchingParser(inputPath,crc);
+        ZounaClasses type = autoDetectFile(inputPath,crc);
+        Parser *parser = getMatchingParser(type,crc);
         if (parser == nullptr){
             std::cerr << "Invalid or unknown file!\n";
             exit(1);
@@ -92,8 +93,8 @@ int main(int argc, char **argv)
             exit(1);
         }
         std::string refPath = pathRef;
-
-        Parser *parser = getMatchingParser(refPath,crc);
+        ZounaClasses type = autoDetectFile(refPath,crc);
+        Parser *parser = getMatchingParser(type,crc);
         if (parser == nullptr){
             std::cerr << "Invalid or unknown file!\n";
             exit(1);

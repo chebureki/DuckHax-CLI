@@ -1,7 +1,6 @@
 #include "parsinghelper.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <iostream>
 #include <sys/stat.h>
 #include <string>
 
@@ -10,7 +9,11 @@ std::string getFileName(std::string path){
 }
 
 std::string getFileExtension(std::string path){
-    return path.substr(path.find_last_of(".")+1);
+    int index = path.find_last_of(".")+1;
+    if(index == 0)
+        return "";
+    else
+        return path.substr(index);
 }
 
 std::string getFileBase(std::string path){
