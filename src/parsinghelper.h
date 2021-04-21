@@ -24,6 +24,7 @@ std::string trailFolder(std::string path);
 std::string dontTrailFolder(std::string path);
 
 bool isADirectory(std::string path);
+std::string to_hex_string(uint val);
 
 template <typename... Args>
 std::string formatString(const std::string format, Args... args){

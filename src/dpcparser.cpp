@@ -115,16 +115,6 @@ DPCResult::~DPCResult(){
     m_folders.clear();
 };
 
-//maybe template and place in the parsinghelper header for future use?
-std::string to_hex_string(uint val){
-    char chars[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    std::string hex = "0x";
-    for(int i=7;i>=0;i--){
-        hex += chars[(val&(0xf<<(i*4)))>>(i*4)];
-    }
-    return hex;
-}
-
 std::string DPCResult::inspectSpecific(){
     //TODO: fix this formatting monstrosity!
     std::string output = "Block-size: "+std::to_string(m_blockSize)+ "\n\n";
