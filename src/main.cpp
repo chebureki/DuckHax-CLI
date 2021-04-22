@@ -41,6 +41,8 @@ int main(int argc, char **argv)
         }
     }
     char *mode = argv[1];
+    std::string inputPath = pathIn;
+    std::string dumpPath = pathOut;
     CRC32Lookup crc{};
     if (strcmp(mode, "dump")==0){
 
@@ -48,9 +50,7 @@ int main(int argc, char **argv)
             std::cerr <<"Specify input and output!\n";
             exit(1);
         }
-        std::string inputPath = pathIn;
-        std::string dumpPath = pathOut;
-        std::cout << "Dumping "+inputPath+" => "+dumpPath+"!\n";
+        std::cout<< formatString("Dumping %s -> %s!\n",inputPath,dumpPath);
         autoDump(inputPath,dumpPath,crc,true);
         exit(0);
     }
@@ -59,7 +59,6 @@ int main(int argc, char **argv)
             std::cerr <<"Specify an input\n";
             exit(1);
         }
-        std::string inputPath = pathIn;
         std::cout << "Inspecting " << inputPath << "!\n";
         ZounaClasses type = autoDetectFile(inputPath,crc);
         Parser *parser = getMatchingParser(type,crc);
