@@ -1,0 +1,13 @@
+struct Light_Z{
+    uint32 size;
+    uint32 classCRC;
+    uint32 nameCRC;
+    uint32 u1;
+    float u2[19] <optimize=false>;
+    uint16 u3;
+    
+    uint16 u4;
+    float u5[16] <optimize=false>;
+    uint32 u6;
+    float u7[u6*2];
+} l;
