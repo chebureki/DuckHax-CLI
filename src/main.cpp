@@ -12,7 +12,7 @@
 void printHelp(){
     std::cout<<"USAGE: DuckHax \n"<<
                 "\tdump -i FILE/DIR -o PATHOUT/OUTPUT \n"<<
-                    //"\t\t -c automatically convert files\n"<<
+                    "\t\t -c automatically convert files from a DPC\n"<<
                     "\n"<<
                 "\tinspect -i FILE \n"<<
                     "\n"<<
@@ -28,10 +28,11 @@ int main(int argc, char **argv)
         exit(1);
     }
     int c;
+    bool autoConv = false;
     char *pathIn = nullptr;
     char *pathOut = nullptr;
     char *pathRef = nullptr;
-    while((c = getopt(argc-1 , argv+1,"i:o:r:")) != -1){
+    while((c = getopt(argc-1 , argv+1,"i:o:r:c")) != -1){
         switch(c){
         case 'i':
             pathIn = optarg;
@@ -40,8 +41,11 @@ int main(int argc, char **argv)
             pathOut = optarg;
             break;
         case 'r':
-                pathRef = optarg;
-                break;
+            pathRef = optarg;
+            break;
+        case 'c':
+            autoConv = true;
+            break;
         case '?':
             printHelp();
             exit(1);
@@ -58,8 +62,8 @@ int main(int argc, char **argv)
             std::cerr <<"Specify input and output!\n";
             exit(1);
         }
-        std::cout<< formatString("Dumping %s -> %s!\n",inputPath,dumpPath);
-        autoDump(inputPath,dumpPath,crc,true);
+        std::cout<< formatString("Dumping %s -> %s!\n",inputPath.c_str(),dumpPath.c_str());
+        autoDump(inputPath,dumpPath,crc,true,autoConv);
         exit(0);
     }
     if(strcmp(mode, "inspect") == 0){

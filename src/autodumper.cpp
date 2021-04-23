@@ -60,7 +60,7 @@ Parser *getMatchingParser(ZounaClasses type, CRC32Lookup crc){
 }
 
 //TODO: fix this garbage code. ffs I can't be this bad at c++ right?
-void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, bool recursive){
+void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, bool recursive, bool autoConv){
     if(isADirectory(pathIn)){
         struct dirent *entry = nullptr;
         DIR *dir = nullptr;
@@ -78,10 +78,10 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
                 if (!isADirectory(newbase))
                     if ( mkdir(newbase.c_str(), 0700) != 0)
                         throw CANT_WRITE(newbase.c_str());
-                autoDump(trailFolder(totalPath),trailFolder(newbase),crc,recursive);
+                autoDump(trailFolder(totalPath),trailFolder(newbase),crc,recursive,autoConv);
                 continue;
             }
-            autoDump(totalPath,getFileBase(baseNamePathOut+childPath),crc,recursive);
+            autoDump(totalPath,getFileBase(baseNamePathOut+childPath),crc,recursive,autoConv);
         }
         closedir(dir);
         return;
@@ -116,15 +116,14 @@ void autoDump(std::string pathIn, std::string baseNamePathOut, CRC32Lookup crc, 
             ParserResult *result = parser->parseFile(pathIn,crc);
             std::string path = trailFolder(baseNamePathOut);
             result->dump(path);
-            autoDump(path,path,crc,true);
+            if (autoConv)
+                autoDump(path,path,crc,recursive,autoConv);
             delete parser;
             delete result;
         }catch(std::runtime_error e){
             std::cout<<e.what();
         }
         return;
-    case ZounaClasses::UNKNOWN:
-        throw CANT_PARSE(pathIn.c_str());
     default:
         //How
         return;
