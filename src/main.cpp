@@ -10,7 +10,15 @@
 
 
 void printHelp(){
-    std::cout<<"USAGE: DuckHax [MODE] -i INPUT -o OUTPUT\nMODES: dump | inspect \n";
+    std::cout<<"USAGE: DuckHax \n"<<
+                "\tdump -i FILE/DIR -o PATHOUT/OUTPUT \n"<<
+                    //"\t\t -c automatically convert files\n"<<
+                    "\n"<<
+                "\tinspect -i FILE \n"<<
+                    "\n"<<
+                "\tbuild -r REFERENCE -i FILE -o OUTPUT \n"
+                    << "\n";
+    ;
 }
 
 int main(int argc, char **argv)
