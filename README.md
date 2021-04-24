@@ -2,18 +2,6 @@
 # DuckHax CLI
 The CLI-tool for: dumping, building and inspecting game-files for _Sitting Ducks_ by Asobo Studios
 
-## Running Sitting Ducks on Linux
-The PC release is a mess, even on Windows music and intro-videos are non-functional.
-Wine signals a page fault on Linux, which renders the game unusable!
-To get the game to **even run** simply hide them from the game.
-Reencoding doesn't help, sadly :(
-```sh
-cd pathToGame
-mkdir videos/backup sounds/MUSIC/backup/
-mv videos/* videos/backup
-mv sounds/MUSIC/* sound/music/backup
-```
-
 ## Building
 ### Requirements
 You will need **libpng**, that's about it!
@@ -46,3 +34,33 @@ There are just too many unknown variables!
 ```sh
 $ ./DuckHax build -r pathToReference -i pathToFile -o pathOut
 ```
+
+## Running Sitting Ducks on Linux
+The PC release is mess! Even on Windows, the intro-videos won't play!
+On wine the game simply crashes, I have yet to find a workaround (but who cares about some intros).
+Simply make the videos not accessible OR comment them out in Init.tsc
+```sh
+cd pathToGame
+mkdir videos/backup
+mv videos/* videos/backup
+```
+As of now (2021.04.24) wine's gstreamer crashes when trying to play the music files (sound-effects work just fine)
+
+There are two steps you could take
+### Disable music entirely 
+```sh
+cd pathToGame
+mkdir sounds/MUSIC/backup
+mv sounds/MUSIC/* sounds/MUSIC/backup
+```
+### GStreamer workaround
+Related issue: https://www.linuxquestions.org/questions/linux-games-33/rpg-maker-games-crash-on-wine-due-to-gstreamer-4175583045/
+Dugans fix:
+---
+[...]
+1. using "winecfg", add a library override to disable "winegstreamer"
+2. "winetricks quartz amstream"
+3. "wineboot -u"
+Step 1 isn't needed if you built WINE without gstreamer support. Step 3 absolutely is needed.
+[...]
+---
