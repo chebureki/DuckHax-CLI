@@ -1,0 +1,130 @@
+Command Name, Description, Function Adress
+SetGameLogicAgent,No Comment,0x40eba0L
+CAMDebug,No Comment,0x40ed50L
+AnonymPause,No Comment,0x40ed70L
+DebugMC,No Comment,0x40edc0L
+ActiveTeleport,No Comment,0x40eda0L
+AnonymNoCar,No Comment,0x40ede0L
+WaitEndRtc,No Comment,0x40ee00L
+OpenStoryMission,No Comment,0x40ef80L
+StartAtMission,No Comment,0x40efc0L
+SubDataLoaded,No Comment,0x40f150L
+SubLevelLoaded,No Comment,0x40f170L
+REquestSubLevel,No Comment,0x40f190L
+BackToMenu,No Comment,0x40f430L
+BlocFader,No Comment,0x40f460L
+SetBlackScreen,No Comment,0x40f620L
+RtcEpisodeAvailable,No Comment,0x40f640L
+SetNIght,No Comment,0x40f720L
+SetDAy,No Comment,0x40f830L
+AddScenarEvent,No Comment,0x40f940L
+GainAllCompetances,No Comment,0x40fc90L
+NbMissionInEpisode,No Comment,0x40fcb0L
+NbMissionInSub,No Comment,0x40fda0L
+NbMissionInMulti,No Comment,0x40fdf0L
+AddMULtiPlayer,No Comment,0x40fef0L
+DisplayFollowSplines,No Comment,0x410120L
+KillFade,No Comment,0x410100L
+GiveTime,No Comment,0x410140L
+EnablePosAtStart,No Comment,0x40ed90L
+PauseConsole,No Comment,0x4101a0L
+SetEpisode,No Comment,0x4101b0L
+CompleteQuest,No Comment,0x4102f0L
+UnPauseFade,No Comment,0x40f400L
+ActivateMenuAfterReset,No Comment,0x1L
+ActivateMenu,No Comment,0x410460L
+ForceCDLoadingDraw,No Comment,0x410020L
+AddMissionFlags,No Comment,0x40fd00L
+CreatGlobalInGameDatas,No Comment,0x4966a0L
+SetRtcMusic,No music filename,0x49f6a0L
+SetRtcSBF,No bigfile name,0x49f730L
+SetFrame,No Comment,0x4a4160L
+OpenBF,No Comment,0x4f5b50L
+ForceBF,No Comment,0x4f5c00L
+CloseBF,No Comment,0x4f5cb0L
+LoadSubLevel, WorldName SubWorldName SubLevelId,0x4b9c70L
+LoadSubData, WorldName SubWorldName SubDataId,0x4ccc60L
+RemoveSubData, WorldName SubDataId [CheckHandles=0=FALSE],0x4cce00L
+ReachedSubLevel, WorldName SubLevelId [PlayerId=1],0x4b9f20L
+RequestReachSubLevel,WorldName KeyId,0x4ba040L
+RemoveHiddenSubLevel, WorldName ExceptSubLevelId,0x4b9e10L
+RemoveNonSubLevel, WorldName ExceptSubLevelId,0x4ba160L
+eXit,No Comment,0x4cbc90L
+SouRCe,No Comment,0x4f7db0L
+Help,No Comment,0x4f7d70L
+Pause,No Comment,0x4f7da0L
+SetDBPath,No Comment,0x51c4c0L
+SetDFPath,No Comment,0x51c580L
+LoadObjectLib,No Comment,0x4d8e20L
+RemoveObjectLib,No Comment,0x4d8ef0L
+CheckHandles,No Comment,0x4a79d0L
+LoadMaterialLib,No Comment,0x4d8d50L
+InitRandomSeed,No Comment,0x4ac200L
+SetBFPath, [Target] [Source],0x51c5e0L
+EnableBF, [Read/Write],0x51c6f0L
+AddJoyStick,Ajoute un joystick,0x4cbc80L
+AddKeyBoard,Ajoute un joueur au clavier,0x4cbc70L
+SetSplitType,No Comment,0x4dc2c0L
+SetWorldToSplit,No Comment,0x4dc320L
+SetLodRender,No Comment,0x4dc460L
+FitOnObject, [ObjectName] [VpId=0],0x4dc4e0L
+MakeAVI,FrameBuffer - Fps,0x4dc580L
+CloseAVI,No Comment,0x4dc5d0L
+GetMatrixUsage,No Comment,0x4f43b0L
+PlayMUsic, MusicName,0x4f6cc0L
+StopMUsic, MusicName,0x4f6dc0L
+OpenSBF, BigFileName,0x4f6e60L
+CloseSBF,No Comment,0x4f6ed0L
+AddCheckPoint,Ajoute un CheckPoint #(1-10) x y z,0x4fb010L
+SetKeyBoard,Configure clavier : (0/1) + (UP/DOWN/LEFT/RIGHT/STRAFEL/STRAFER/BUTTONx/START)+ (Scancode),0x1L
+ShowMapping,Affiche la configuration courante du clavier,0x4fefb0L
+ShowInputDebug,Affiche le debug de l'input manager,0x4ff160L
+PlayMOVie, MovieName,0x503580L
+PosPersoDebug,No Comment,0x548b70L
+ScreenShot,No Comment,0x548850L
+SetGammaRamp,No param restore default,0x548940L
+SetBrightness,No param restore default,0x5489d0L
+SetContrast,No param restore default,0x548a30L
+SetGAmma,No param restore default,0x548a90L
+SwapStartButton,No Comment,0x548af0L
+CleanTempPic,No Comment,0x548c30L
+EnableProfiler,No Comment,0x548bd0L
+SwitchScreenMode,No Comment,0x5488e0L
+DisplayFps,No Comment,0x548cf0L
+DisplayFrameBar,No Comment,0x548d70L
+DisableConsole,No Comment,0x548d80L
+DisableIngameConsole,No Comment,0x548d90L
+DisableAssert,No Comment,0x548db0L
+DisableMUsic,No Comment,0x548dd0L
+DisableMOvie,No Comment,0x548df0L
+EnableL2R2,No Comment,0x548e30L
+SkipMOvie,No Comment,0x548e10L
+NbHandle,No Comment,0x548f30L
+DoSkelDynamic,No Comment,0x548d00L
+DisplayMemStatus,No Comment,0x548830L
+DrawMemGraph,No Comment,0x548840L
+SetGame, WorldName NbPlayers [AgentCameraClassName=CameraGame],0x5491f0L
+ActivateGame, WorldName,0x549970L
+DeactivateGame, WorldName,0x549a50L
+RemoveGame, WorldName ,0x54a1b0L
+SetMonoGame, WorldName NbPlayers [AgentCameraClassName=CameraGame],0x549200L
+SwitchGameToMono, WorldName,0x5497a0L
+SwitchGameToMUlti, WorldName NbVp,0x549880L
+AddGamePlayer, WorldName PlayerId(1-MAX_NUMBER_OF_PLAYERS) PlayerName [TeamId=0],0x549350L
+AddMenuPlayer, WorldName PlayerId(1-MAX_NUMBER_OF_PLAYERS) PlayerName [TeamId=0],0x549360L
+ReMoveGamePlayer, WorldName PlayerId(1-MAX_NUMBER_OF_PLAYERS),0x549510L
+REsetGame, VpId(1-MAX_VIEWPORT),0x549e40L
+DeactivateGamePlayer, WorldName PlayerId(1-MAX_NUMBER_OF_PLAYERS),0x5496d0L
+ACtivateGamePlayer, WorldName PlayerId(1-MAX_NUMBER_OF_PLAYERS),0x549600L
+PlayerGotoCoord,  X Y Z Viewport,0x549f10L
+PlayerGotoSubLevel,WorldName KeyId [PlayerId=1],0x54a080L
+SwitchCameraUser, ViewPortId,0x549b30L
+SetPersoCamera, ViewPortId,0x549da0L
+SetRTC, WorldName RtcNb,0x54a270L
+LoadRTC, WorldName RtcId RtcName [AgentRtcClassName=RtcGame],0x54a570L
+PlayRTC, WorldName RtcId [ViewPortId],0x54a370L
+SHutRTC, WorldName RtcId,0x54a480L
+TransText,No Comment,0x54ac00L
+SetLanguage,No Comment,0x54ac30L
+PutParameter,No Comment,0x54ac60L
+ReadParameters,No Comment,0x54ac90L
