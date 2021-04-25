@@ -6,6 +6,7 @@
 
 enum ZounaClasses{
     UNKNOWN, // yikes
+    DPS,
     DPC, //not a class, but who cares
     sdx,
     GameBreakable_Z,

@@ -5,6 +5,7 @@
 //Keep the indices the same as in ZounaClasses!
 const char* ZounaClassesNames[] ={
     "UNKNOWN",
+    "DPS", //equivalent to DPC
     "DPC",
     "sdx",
     "GameBreakable_Z",

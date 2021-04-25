@@ -53,8 +53,12 @@ int main(int argc, char **argv)
         }
     }
     char *mode = argv[1];
-    std::string inputPath = pathIn;
-    std::string dumpPath = pathOut;
+    std::string inputPath; // = pathIn;
+    std::string dumpPath; // = pathOut;
+    if (pathIn != NULL)
+        inputPath = pathIn;
+    if (pathOut != NULL)
+        dumpPath = pathOut;
     CRC32Lookup crc{};
     if (strcmp(mode, "dump")==0){
 

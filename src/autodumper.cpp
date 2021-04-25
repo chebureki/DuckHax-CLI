@@ -24,9 +24,12 @@ ZounaClasses autoDetectFile(std::string pathIn, CRC32Lookup crc){
     ZounaClasses zClass = crc.getClass(classCRC);
 
     //Get the classname from the file-extension, yes I know this is stupid but e.g. SPX and DPC files do not have a CRC for crying out loud
-    if(zClass == ZounaClasses::UNKNOWN)
+    if(zClass == ZounaClasses::UNKNOWN){
         zClass = crc.getClass(crc.calculateCRC32(getFileExtension(pathIn)));
-    return zClass;
+        if(zClass == ZounaClasses::DPS)
+            zClass = ZounaClasses::DPC;
+    }
+        return zClass;
 }
 
 Parser *getMatchingParser(ZounaClasses type, CRC32Lookup crc){

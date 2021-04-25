@@ -26,7 +26,8 @@ DPCResult *DPCParser::parseFile(std::string pathIn,CRC32Lookup crcLookup){
     if (strcmp(fileMagic,"v1.22 - Asobo Studio - Internal Cross Technology")!=0){
         if(strcmp(fileMagic, "v1.17 - Asobo Studio - Internal Cross Technology") != 0)
             if(strcmp(fileMagic, "v1.14 - Asobo Studio - Internal Cross Technology") != 0)
-                throw std::invalid_argument(pathIn+ " is either outdated/too new or not a DPC-file");
+                if(strcmp(fileMagic, "v1.19 - Asobo Studio - Internal Cross Technology") != 0)
+                    throw std::invalid_argument(pathIn+ " is either outdated/too new or not a DPC-file");
     }
     fseek(file,0,SEEK_END);
     uint32_t totalSize = ftell(file);
