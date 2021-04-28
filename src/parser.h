@@ -11,13 +11,16 @@ class ParserResult{
         ZounaClasses m_type;
         uint32_t m_nameCRC;
         std::string m_pathToFile;
+
+    protected:
+        virtual std::string inspectSpecific(); // returns file-path, file-type, ... and so forth
+        ParserResult(ZounaClasses type, uint32_t nameCRC, std::string pathToFile);
     public:
         friend class Parser;
-        ParserResult(ZounaClasses type, uint32_t nameCRC, std::string pathToFile);
+
         virtual ~ParserResult();
         uint32_t getType() const;
         uint32_t getCRC32() const;
-        virtual std::string inspectSpecific(); // returns file-path, file-type, ... and so forth
         std::string inspect(); // returns file-path, file-type, ... and so forth, followed by file-specifics
         std::string getFilePath() const;
         virtual void dump(std::string pathOut);
